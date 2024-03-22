@@ -4,14 +4,14 @@ class PreferredNumbers:
     e.g.) E12: [10, 12, 15, 18, 22, 27, 33, 39, 47, 56, 68, 82]
     """
 
-    # The index of the series from [3, 6, 12, 24, 48, 96, 192]
-    series_index = [3 * 2 ** i for i in range(7)]
+    # The index of the E-series: [3, 6, 12, 24, 48, 96, 192]
+    _series_number_e = [3 * 2 ** i for i in range(7)]
     
-    digits = [2, 2, 2, 2, 3, 3, 3]
+    _digits_e = [2, 2, 2, 2, 3, 3, 3]
 
-    torelance = [0.4, 0.2, 0.1, 0.05, 0.02, 0.01, 0.005]
+    _torelance_e = [0.4, 0.2, 0.1, 0.05, 0.02, 0.01, 0.005]
 
-    e_series = [
+    _values_e = [
         # E3
         [10, 22, 47],
 
@@ -69,90 +69,91 @@ class PreferredNumbers:
     ]
 
     @staticmethod
-    def digit(series: int) -> int:
-        """Returns the number of digits in the series.
+    def digits_e(series_number: int) -> int:
+        """Returns the number of digits in the E-series.
 
         Args:
-            series: The index of the series from [3, 6, 12, 24, 48, 96, 192]
+            series_number: The number of the E-series from [3, 6, 12, 24, 48, 96, 192]
 
         Returns:
-            The number of digits in the series: 2 or 3
+            The number of digits in the E-series: 2 or 3
 
-        >>> PreferredNumbers.digit(6)
+        >>> PreferredNumbers.digits_e(6)
         2
         """
-        PreferredNumbers.check_series(series)
+        PreferredNumbers.check_series_e(series_number)
 
-        series_index = PreferredNumbers.series_index.index(series)
-        return PreferredNumbers.digits[series_index]
+        series_index = PreferredNumbers._series_number_e.index(series_number)
+
+        return PreferredNumbers._digits_e[series_index]
     
     @staticmethod
-    def value(series: int, step: int) -> int:
-        """Returns the value of the preferred number.
+    def value_e(series_number: int, step: int) -> int:
+        """Returns the value in the E-series.
 
         Args:
-            series: The index of the series from [3, 6, 12, 24, 48, 96, 192]
-            step: The index of the value in the series
+            series_number: The number of the E-series from [3, 6, 12, 24, 48, 96, 192]
+            step: The index of step in the specified series
 
         Returns:
-            The value of the preferred number
+            The value in the E-series
 
-        >>> PreferredNumbers.value(3, 0)
+        >>> PreferredNumbers.value_e(3, 0)
         10
         """
-        PreferredNumbers.check_series(series)
+        PreferredNumbers.check_series_e(series_number)
+        PreferredNumbers.check_step_e(series_number, step)
 
-        series_index = PreferredNumbers.series_index.index(series)
+        series_index = PreferredNumbers._series_number_e.index(series_number)
 
-        PreferredNumbers.check_step(series, step)
-
-        return PreferredNumbers.e_series[series_index][step]
+        return PreferredNumbers._values_e[series_index][step]
     
     @staticmethod
-    def values(series: int) -> list:
-        """Returns the list of values of the preferred number series.
+    def values_e(series_number: int) -> list:
+        """Returns the list of values of the E-series.
 
         Args:
-            series: The index of the series from [3, 6, 12, 24, 48, 96, 192]
+            series_number: The index of the series from [3, 6, 12, 24, 48, 96, 192]
 
         Returns:
-            The list of values of the preferred number series
+            The list of values in the E-series
             
-        >>> PreferredNumbers.values(3)
+        >>> PreferredNumbers.values_e(3)
         [10, 22, 47]
         """
-        PreferredNumbers.check_series(series)
+        PreferredNumbers.check_series_e(series_number)
 
-        series_index = PreferredNumbers.series_index.index(series)
-        return PreferredNumbers.e_series[series_index].copy()
+        series_index = PreferredNumbers._series_number_e.index(series_number)
+        
+        return PreferredNumbers._values_e[series_index].copy()
 
     @staticmethod
-    def check_series(series: int) -> None:
-        """Check if the series is valid.
+    def check_series_e(series_number: int) -> None:
+        """Check if the series is valid for E-series.
 
         Args:
-            series: The index of the series from [3, 6, 12, 24, 48, 96, 192]
+            series_number: The index of the series from [3, 6, 12, 24, 48, 96, 192]
 
         Returns:
             None
 
-        >>> PreferredNumbers.check_series(3)
+        >>> PreferredNumbers.check_series_e(3)
         """
-        if not series in PreferredNumbers.series_index:
-            raise ValueError(f"Series index must be a value in {PreferredNumbers.series_index}: Provided series index {series}")
+        if not series_number in PreferredNumbers._series_number_e:
+            raise ValueError(f"Series index must be a value in {PreferredNumbers._series_number_e}: Provided series index {series_number}")
         
     @staticmethod
-    def check_step(series: int, step: int) -> None:
-        """Check if the step is valid.
+    def check_step_e(series_number: int, step: int) -> None:
+        """Check if the step is valid for E-series.
 
         Args:
-            series: The index of the series from [3, 6, 12, 24, 48, 96, 192]
-            step: The index of the value in the series
+            series_number: The index of the series from [3, 6, 12, 24, 48, 96, 192]
+            step: The index of the value in the E-series
 
         Returns:
             None
 
-        >>> PreferredNumbers.check_step(3, 0)
+        >>> PreferredNumbers.check_step_e(3, 0)
         """
-        if step < 0 or len(PreferredNumbers.e_series[PreferredNumbers.series_index.index(series)]) <= step:
-            raise ValueError(f"Step must be in range 0 to {len(PreferredNumbers.e_series[PreferredNumbers.series_index.index(series)])}: Provided step {step}")
+        if step < 0 or series_number <= step:
+            raise ValueError(f"Step must be in range 0 to {series_number}: Provided step {step}")

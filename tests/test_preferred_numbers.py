@@ -17,8 +17,8 @@ class ExceptPreferredNumber(TestCase):
         self.sample = PreferredNumbers()
 
 
-    def test_digit(self) -> None:
-        """Test the digit method.
+    def test_digits_e(self) -> None:
+        """Test the digits_e method.
         
         Args:
             None
@@ -38,10 +38,10 @@ class ExceptPreferredNumber(TestCase):
 
         for input, expected_output in test_cases:
             with self.subTest(input=input, expected_output=expected_output):
-                self.assertEqual(expected_output, self.sample.digit(input))
+                self.assertEqual(expected_output, self.sample.digits_e(input))
 
-    def test_value(self) -> None:
-        """Test the value method.
+    def test_value_e(self) -> None:
+        """Test the value_e method.
         
         Args:
             None
@@ -60,12 +60,12 @@ class ExceptPreferredNumber(TestCase):
             (192, 1, 101)
         ]
 
-        for series, step, expected_output in test_cases:
-            with self.subTest(series=series, step=step, expected_output=expected_output):
-                self.assertEqual(expected_output, self.sample.value(series, step))
+        for series_number, step, expected_output in test_cases:
+            with self.subTest(series_number=series_number, step=step, expected_output=expected_output):
+                self.assertEqual(expected_output, self.sample.value_e(series_number, step))
    
-    def test_values(self) -> None:
-        """Test the values method.
+    def test_values_e(self) -> None:
+        """Test the values_e method.
         
         Args:
             None
@@ -86,11 +86,11 @@ class ExceptPreferredNumber(TestCase):
 
         for input, expected_output in test_cases:
             with self.subTest(input=input, expected_output=expected_output):
-                self.assertEqual(expected_output, len(self.sample.values(input)))
+                self.assertEqual(expected_output, len(self.sample.values_e(input)))
 
 
-    def test_check_series(self) -> None:
-        """Test the check_series method.
+    def test_check_series_e(self) -> None:
+        """Test the check_series_e method.
         
         Args:
             None
@@ -103,17 +103,17 @@ class ExceptPreferredNumber(TestCase):
 
         for input in success_case:
             with self.subTest(input=input):
-                self.assertIsNone(self.sample.check_series(input))
+                self.assertIsNone(self.sample.check_series_e(input))
 
         for input in fail_case:
             with self.subTest(input=input):
                 with self.assertRaises(ValueError) as context:
-                    self.sample.check_series(input)
+                    self.sample.check_series_e(input)
                 self.assertEqual(f"Series index must be a value in {success_case}: Provided series index {input}", str(context.exception))
 
 
-    def test_check_step(self) -> None:
-        """Test the check_step method.
+    def test_check_step_e(self) -> None:
+        """Test the check_step_e method.
         
         Args:
             None
@@ -136,13 +136,13 @@ class ExceptPreferredNumber(TestCase):
 
         for series, step in success_case:
             with self.subTest(series=series, step=step):
-                self.assertIsNone(self.sample.check_step(series, step))
+                self.assertIsNone(self.sample.check_step_e(series, step))
 
         for series, step in fail_case:
             with self.subTest(series=series, step=step):
                 with self.assertRaises(ValueError) as context:
-                    self.sample.check_step(series, step)
-                self.assertEqual(f"Step must be in range 0 to {len(self.sample.e_series[self.sample.series_index.index(series)])}: Provided step {step}", str(context.exception))
+                    self.sample.check_step_e(series, step)
+                self.assertEqual(f"Step must be in range 0 to {len(self.sample._values_e[self.sample._series_number_e.index(series)])}: Provided step {step}", str(context.exception))
 
     def tearDown(self) -> None:
         """Delete the PreferredNumber object.
