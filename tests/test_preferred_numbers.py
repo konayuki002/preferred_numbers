@@ -9,23 +9,10 @@ class ExceptPreferredNumber(TestCase):
     """
 
     def setUp(self) -> None:
-        """Create a PreferredNumber object.
-
-        Returns:
-            None
-        """
         self.sample = PreferredNumbers()
 
 
     def test_digits_e(self) -> None:
-        """Test the digits_e method.
-        
-        Args:
-            None
-
-        Returns:
-            None
-        """
         test_cases = [
             (3, 2),
             (6, 2),
@@ -41,15 +28,6 @@ class ExceptPreferredNumber(TestCase):
                 self.assertEqual(expected_output, self.sample.digits_e(input))
 
     def test_value_e(self) -> None:
-        """Test the value_e method.
-        
-        Args:
-            None
-
-        Returns:
-            None
-        """
-
         test_cases = [
             (3, 0, 10),
             (6, 1, 15),
@@ -65,15 +43,6 @@ class ExceptPreferredNumber(TestCase):
                 self.assertEqual(expected_output, self.sample.value_e(series_number, step))
    
     def test_values_e(self) -> None:
-        """Test the values_e method.
-        
-        Args:
-            None
-
-        Returns:
-            None
-        """
-
         test_cases = [
             (3, 3),
             (6, 6),
@@ -90,14 +59,6 @@ class ExceptPreferredNumber(TestCase):
 
 
     def test_check_series_e(self) -> None:
-        """Test the check_series_e method.
-        
-        Args:
-            None
-
-        Returns:
-            None
-        """
         success_case = [ 3, 6, 12, 24, 48, 96, 192 ]
         fail_case = [ 1, 2, 4, 5, 7, 8, 16, 32, 64, 128, 256]
 
@@ -113,14 +74,6 @@ class ExceptPreferredNumber(TestCase):
 
 
     def test_check_step_e(self) -> None:
-        """Test the check_step_e method.
-        
-        Args:
-            None
-
-        Returns:
-            None
-        """
         success_case = [
             (3, 0),
             (3, 2),
@@ -145,15 +98,6 @@ class ExceptPreferredNumber(TestCase):
                 self.assertEqual(f"Step must be in range 0 to {len(self.sample._values_e[self.sample._series_number_e.index(series)])}: Provided step {step}", str(context.exception))
 
     def test_value_r(self) -> None:
-        """Test the value_r method.
-        
-        Args:
-            None
-
-        Returns:
-            None
-        """
-
         test_cases = [
             (5, 0, 100),
             (10, 1, 125),
@@ -167,15 +111,6 @@ class ExceptPreferredNumber(TestCase):
                 self.assertEqual(expected_output, self.sample.value_r(series_number, step))
 
     def test_values_r(self) -> None:
-        """Test the values_r method.
-        
-        Args:
-            None
-
-        Returns:
-            None
-        """
-
         test_cases = [
             (5, 5),
             (10, 10),
@@ -189,14 +124,6 @@ class ExceptPreferredNumber(TestCase):
                 self.assertEqual(expected_output, len(self.sample.values_r(input)))
 
     def test_check_series_r(self) -> None:
-        """Test the check_series_r method.
-        
-        Args:
-            None
-
-        Returns:
-            None
-        """
         success_case = [ 5, 10, 20, 40, 80 ]
         fail_case = [ 1, 2, 4, 8, 16, 32, 64, 128, 256]
 
@@ -211,14 +138,6 @@ class ExceptPreferredNumber(TestCase):
                 self.assertEqual(f"Series index must be a value in {success_case}: Provided series index {input}", str(context.exception))
 
     def test_check_step_r(self) -> None:
-        """Test the check_step_r method.
-        
-        Args:
-            None
-
-        Returns:
-            None
-        """
         success_case = [
             (5, 0),
             (5, 4),
@@ -243,13 +162,5 @@ class ExceptPreferredNumber(TestCase):
                 self.assertEqual(f"Step must be in range 0 to {len(self.sample._values_r[self.sample._series_number_r.index(series)])}: Provided step {step}", str(context.exception))
 
     def tearDown(self) -> None:
-        """Delete the PreferredNumber object.
-        
-        Args:
-            None
-
-        Returns:
-            None
-        """
         del self.sample
 
