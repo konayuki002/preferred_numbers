@@ -81,9 +81,8 @@ class PreferredNumbers:
         >>> PreferredNumbers.digit(6)
         2
         """
-        if not series in PreferredNumbers.series_index:
-            raise ValueError(f"Series index must be a value in {PreferredNumbers.series_index}: Provided series index {series}")
-        
+        PreferredNumbers.check_series(series)
+
         series_index = PreferredNumbers.series_index.index(series)
         return PreferredNumbers.digits[series_index]
     
@@ -101,14 +100,12 @@ class PreferredNumbers:
         >>> PreferredNumbers.value(3, 0)
         10
         """
-        if not series in PreferredNumbers.series_index:
-            raise ValueError(f"Series index must be a value in {PreferredNumbers.series_index}: Provided series index {series}")
-        
+        PreferredNumbers.check_series(series)
+
         series_index = PreferredNumbers.series_index.index(series)
 
-        if step < 0 or len(PreferredNumbers.e_series[series_index]) <= step:
-            raise ValueError(f"Step must be less than {len(PreferredNumbers.e_series[series_index])}: Provided step {step}")
-        
+        PreferredNumbers.check_step(series, step)
+
         return PreferredNumbers.e_series[series_index][step]
     
     @staticmethod
@@ -124,8 +121,38 @@ class PreferredNumbers:
         >>> PreferredNumbers.values(3)
         [10, 22, 47]
         """
+        PreferredNumbers.check_series(series)
+
+        series_index = PreferredNumbers.series_index.index(series)
+        return PreferredNumbers.e_series[series_index].copy()
+
+    @staticmethod
+    def check_series(series: int) -> None:
+        """Check if the series is valid.
+
+        Args:
+            series: The index of the series from [3, 6, 12, 24, 48, 96, 192]
+
+        Returns:
+            None
+
+        >>> PreferredNumbers.check_series(3)
+        """
         if not series in PreferredNumbers.series_index:
             raise ValueError(f"Series index must be a value in {PreferredNumbers.series_index}: Provided series index {series}")
         
-        series_index = PreferredNumbers.series_index.index(series)
-        return PreferredNumbers.e_series[series_index].copy()
+    @staticmethod
+    def check_step(series: int, step: int) -> None:
+        """Check if the step is valid.
+
+        Args:
+            series: The index of the series from [3, 6, 12, 24, 48, 96, 192]
+            step: The index of the value in the series
+
+        Returns:
+            None
+
+        >>> PreferredNumbers.check_step(3, 0)
+        """
+        if step < 0 or len(PreferredNumbers.e_series[PreferredNumbers.series_index.index(series)]) <= step:
+            raise ValueError(f"Step must be in range 0 to {len(PreferredNumbers.e_series[PreferredNumbers.series_index.index(series)])}: Provided step {step}")

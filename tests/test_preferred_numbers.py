@@ -40,7 +40,6 @@ class ExceptPreferredNumber(TestCase):
             with self.subTest(input=input, expected_output=expected_output):
                 self.assertEqual(expected_output, self.sample.digit(input))
 
-
     def test_value(self) -> None:
         """Test the value method.
         
@@ -64,15 +63,6 @@ class ExceptPreferredNumber(TestCase):
         for series, step, expected_output in test_cases:
             with self.subTest(series=series, step=step, expected_output=expected_output):
                 self.assertEqual(expected_output, self.sample.value(series, step))
-        
-        with self.assertRaises(ValueError) as context:
-            self.sample.value(24, -1)
-        self.assertEqual("Step must be less than 24: Provided step -1", str(context.exception))
-
-        with self.assertRaises(ValueError) as context:
-            self.sample.value(3, 24)
-        self.assertEqual("Step must be less than 3: Provided step 24", str(context.exception))
-
    
     def test_values(self) -> None:
         """Test the values method.
@@ -98,20 +88,61 @@ class ExceptPreferredNumber(TestCase):
             with self.subTest(input=input, expected_output=expected_output):
                 self.assertEqual(expected_output, len(self.sample.values(input)))
 
-        with self.assertRaises(ValueError) as context:
-            self.sample.values(1)
-        self.assertEqual("Series index must be a value in [3, 6, 12, 24, 48, 96, 192]: Provided series index 1", str(context.exception))
 
-        with self.assertRaises(ValueError) as context:
-            self.sample.values(4)
+    def test_check_series(self) -> None:
+        """Test the check_series method.
+        
+        Args:
+            None
 
-        self.assertEqual("Series index must be a value in [3, 6, 12, 24, 48, 96, 192]: Provided series index 4", str(context.exception))
+        Returns:
+            None
+        """
+        success_case = [ 3, 6, 12, 24, 48, 96, 192 ]
+        fail_case = [ 1, 2, 4, 5, 7, 8, 16, 32, 64, 128, 256]
 
-        with self.assertRaises(ValueError) as context:
-            self.sample.values(384)
+        for input in success_case:
+            with self.subTest(input=input):
+                self.assertIsNone(self.sample.check_series(input))
 
-        self.assertEqual("Series index must be a value in [3, 6, 12, 24, 48, 96, 192]: Provided series index 384", str(context.exception))
+        for input in fail_case:
+            with self.subTest(input=input):
+                with self.assertRaises(ValueError) as context:
+                    self.sample.check_series(input)
+                self.assertEqual(f"Series index must be a value in {success_case}: Provided series index {input}", str(context.exception))
 
+
+    def test_check_step(self) -> None:
+        """Test the check_step method.
+        
+        Args:
+            None
+
+        Returns:
+            None
+        """
+        success_case = [
+            (3, 0),
+            (3, 2),
+            (192, 0),
+            (192, 191),
+        ]
+        fail_case = [
+            (3, -1),
+            (3, 3),
+            (192, -1),
+            (192, 192),
+        ]
+
+        for series, step in success_case:
+            with self.subTest(series=series, step=step):
+                self.assertIsNone(self.sample.check_step(series, step))
+
+        for series, step in fail_case:
+            with self.subTest(series=series, step=step):
+                with self.assertRaises(ValueError) as context:
+                    self.sample.check_step(series, step)
+                self.assertEqual(f"Step must be in range 0 to {len(self.sample.e_series[self.sample.series_index.index(series)])}: Provided step {step}", str(context.exception))
 
     def tearDown(self) -> None:
         """Delete the PreferredNumber object.
