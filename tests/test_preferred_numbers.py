@@ -144,6 +144,104 @@ class ExceptPreferredNumber(TestCase):
                     self.sample.check_step_e(series, step)
                 self.assertEqual(f"Step must be in range 0 to {len(self.sample._values_e[self.sample._series_number_e.index(series)])}: Provided step {step}", str(context.exception))
 
+    def test_value_r(self) -> None:
+        """Test the value_r method.
+        
+        Args:
+            None
+
+        Returns:
+            None
+        """
+
+        test_cases = [
+            (5, 0, 100),
+            (10, 1, 125),
+            (20, 4, 160),
+            (40, 5, 132),
+            (80, 30, 236)
+        ]
+
+        for series_number, step, expected_output in test_cases:
+            with self.subTest(series_number=series_number, step=step, expected_output=expected_output):
+                self.assertEqual(expected_output, self.sample.value_r(series_number, step))
+
+    def test_values_r(self) -> None:
+        """Test the values_r method.
+        
+        Args:
+            None
+
+        Returns:
+            None
+        """
+
+        test_cases = [
+            (5, 5),
+            (10, 10),
+            (20, 20),
+            (40, 40),
+            (80, 80)
+        ]
+
+        for input, expected_output in test_cases:
+            with self.subTest(input=input, expected_output=expected_output):
+                self.assertEqual(expected_output, len(self.sample.values_r(input)))
+
+    def test_check_series_r(self) -> None:
+        """Test the check_series_r method.
+        
+        Args:
+            None
+
+        Returns:
+            None
+        """
+        success_case = [ 5, 10, 20, 40, 80 ]
+        fail_case = [ 1, 2, 4, 8, 16, 32, 64, 128, 256]
+
+        for input in success_case:
+            with self.subTest(input=input):
+                self.assertIsNone(self.sample.check_series_r(input))
+
+        for input in fail_case:
+            with self.subTest(input=input):
+                with self.assertRaises(ValueError) as context:
+                    self.sample.check_series_r(input)
+                self.assertEqual(f"Series index must be a value in {success_case}: Provided series index {input}", str(context.exception))
+
+    def test_check_step_r(self) -> None:
+        """Test the check_step_r method.
+        
+        Args:
+            None
+
+        Returns:
+            None
+        """
+        success_case = [
+            (5, 0),
+            (5, 4),
+            (80, 0),
+            (80, 79),
+        ]
+        fail_case = [
+            (5, -1),
+            (5, 5),
+            (80, -1),
+            (80, 80),
+        ]
+
+        for series, step in success_case:
+            with self.subTest(series=series, step=step):
+                self.assertIsNone(self.sample.check_step_r(series, step))
+
+        for series, step in fail_case:
+            with self.subTest(series=series, step=step):
+                with self.assertRaises(ValueError) as context:
+                    self.sample.check_step_r(series, step)
+                self.assertEqual(f"Step must be in range 0 to {len(self.sample._values_r[self.sample._series_number_r.index(series)])}: Provided step {step}", str(context.exception))
+
     def tearDown(self) -> None:
         """Delete the PreferredNumber object.
         

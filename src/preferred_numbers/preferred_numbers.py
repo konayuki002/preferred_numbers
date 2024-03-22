@@ -157,3 +157,118 @@ class PreferredNumbers:
         """
         if step < 0 or series_number <= step:
             raise ValueError(f"Step must be in range 0 to {series_number}: Provided step {step}")
+
+
+    # R-series
+    _series_number_r = [5, 10, 20, 40, 80]
+
+    _values_r = [
+        # R5
+        [100, 160, 250, 400, 630],
+        
+        # R10
+        [100, 125, 160, 200, 250, 315, 400, 500, 630, 800],
+
+        # R20
+        [
+            100, 112, 125, 140,
+            160, 180, 200, 224,
+            250, 280, 315, 355,
+            400, 450, 500, 560,
+            630, 710, 800, 900
+        ],
+
+        # R40
+        [
+            100, 106, 112, 118, 125, 132, 140, 150,
+            160, 170, 180, 190, 200, 212, 224, 236,
+            250, 265, 280, 300, 315, 335, 355, 375,
+            400, 425, 450, 475, 500, 530, 560, 600,
+            630, 670, 710, 750, 800, 850, 900, 950
+        ],
+
+        # R80
+        [
+            100, 103, 106, 109, 112, 115, 118, 122,
+            125, 128, 132, 136, 140, 145, 150, 155,
+            160, 165, 170, 175, 180, 185, 190, 195,
+            200, 206, 212, 218, 224, 230, 236, 243,
+            250, 258, 265, 272, 280, 290, 300, 307,
+            315, 325, 335, 345, 355, 365, 375, 387,
+            400, 412, 425, 437, 450, 462, 475, 487,
+            500, 515, 530, 545, 560, 580, 600, 615,
+            630, 650, 670, 690, 710, 730, 750, 775,
+            800, 825, 850, 875, 900, 925, 950, 975
+        ]
+    ]
+
+    @staticmethod
+    def value_r(series_number: int, step: int) -> int:
+        """Returns the value in the R-series.
+
+        Args:
+            series_number: The number of the R-series from [5, 10, 20, 40, 80]
+            step: The index of step in the specified series
+
+        Returns:
+            The value in the R-series
+
+        >>> PreferredNumbers.value_r(5, 0)
+        100
+        """
+        PreferredNumbers.check_series_r(series_number)
+        PreferredNumbers.check_step_r(series_number, step)
+
+        series_index = PreferredNumbers._series_number_r.index(series_number)
+
+        return PreferredNumbers._values_r[series_index][step]
+    
+    @staticmethod
+    def values_r(series_number: int) -> list:
+        """Returns the list of values of the R-series.
+
+        Args:
+            series_number: The index of the series from [5, 10, 20, 40, 80]
+
+        Returns:
+            The list of values in the R-series
+            
+        >>> PreferredNumbers.values_r(5)
+        [100, 160, 250, 400, 630]
+        """
+        PreferredNumbers.check_series_r(series_number)
+
+        series_index = PreferredNumbers._series_number_r.index(series_number)
+        
+        return PreferredNumbers._values_r[series_index].copy()
+    
+    @staticmethod
+    def check_series_r(series_number: int) -> None:
+        """Check if the series is valid for R-series.
+
+        Args:
+            series_number: The index of the series from [5, 10, 20, 40, 80]
+
+        Returns:
+            None
+
+        >>> PreferredNumbers.check_series_r(5)
+        """
+        if not series_number in PreferredNumbers._series_number_r:
+            raise ValueError(f"Series index must be a value in {PreferredNumbers._series_number_r}: Provided series index {series_number}")
+        
+    @staticmethod
+    def check_step_r(series_number: int, step: int) -> None:
+        """Check if the step is valid for R-series.
+
+        Args:
+            series_number: The index of the series from [5, 10, 20, 40, 80]
+            step: The index of the value in the R-series
+
+        Returns:
+            None
+
+        >>> PreferredNumbers.check_step_r(5, 0)
+        """
+        if step < 0 or series_number <= step:
+            raise ValueError(f"Step must be in range 0 to {series_number}: Provided step {step}")
