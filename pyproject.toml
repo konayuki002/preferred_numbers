@@ -15,7 +15,7 @@ line-length = 88
 
 [project]
 name = "preferred-numbers-konayuki002"
-version = "0.0.1"
+version = "0.0.2"
 authors = [{ name = "Yukihide Ochi", email = "konayuki0455@gmail.com" }]
 description = "This provides the preferred numbers from E-series."
 readme = "README.md"
