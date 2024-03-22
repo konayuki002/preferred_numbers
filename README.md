@@ -21,7 +21,7 @@ e.g.)
 ## Installation
 
 ```bash
-pip install git+git://github.com/konayuki002/preferred_numbers.git
+pip install git+htpps://github.com/konayuki002/preferred_numbers.git
 ```
 
 ## Example
