@@ -26,19 +26,19 @@ class ExceptPreferredNumber(TestCase):
         Returns:
             None
         """
-        self.assertEqual(2, self.sample.digit(3))
+        test_cases = [
+            (3, 2),
+            (6, 2),
+            (12, 2),
+            (24, 2),
+            (48, 3),
+            (96, 3),
+            (192, 3)
+        ]
 
-        self.assertEqual(2, self.sample.digit(6))
-
-        self.assertEqual(2, self.sample.digit(12))
-
-        self.assertEqual(2, self.sample.digit(24))
-
-        self.assertEqual(3, self.sample.digit(48))
-
-        self.assertEqual(3, self.sample.digit(96))
-
-        self.assertEqual(3, self.sample.digit(192))
+        for input, expected_output in test_cases:
+            with self.subTest(input=input, expected_output=expected_output):
+                self.assertEqual(expected_output, self.sample.digit(input))
 
 
     def test_value(self) -> None:
@@ -50,20 +50,20 @@ class ExceptPreferredNumber(TestCase):
         Returns:
             None
         """
-        self.assertEqual(10, self.sample.value(3, 0))
 
-        self.assertEqual(15, self.sample.value(6, 1))
+        test_cases = [
+            (3, 0, 10),
+            (6, 1, 15),
+            (12, 4, 22),
+            (24, 5, 16),
+            (48, 30, 422),
+            (96, 70, 536),
+            (192, 1, 101)
+        ]
 
-        self.assertEqual(22, self.sample.value(12, 4))
-
-        self.assertEqual(16, self.sample.value(24, 5))
-        
-        self.assertEqual(422, self.sample.value(48, 30))
-
-        self.assertEqual(536, self.sample.value(96, 70))
-
-        self.assertEqual(101, self.sample.value(192, 1))
-    
+        for series, step, expected_output in test_cases:
+            with self.subTest(series=series, step=step, expected_output=expected_output):
+                self.assertEqual(expected_output, self.sample.value(series, step))
         
         with self.assertRaises(ValueError) as context:
             self.sample.value(24, -1)
@@ -83,20 +83,20 @@ class ExceptPreferredNumber(TestCase):
         Returns:
             None
         """
-        self.assertEqual([10, 22, 47], self.sample.values(3))
 
-        self.assertEqual([10, 15, 22, 33, 47, 68], self.sample.values(6))
+        test_cases = [
+            (3, 3),
+            (6, 6),
+            (12, 12),
+            (24, 24),
+            (48, 48),
+            (96, 96),
+            (192, 192)
+        ]
 
-        self.assertEqual([10, 12, 15, 18, 22, 27, 33, 39, 47, 56, 68, 82], self.sample.values(12))
-
-        self.assertEqual(24, len(self.sample.values(24)))
-
-        self.assertEqual(48, len(self.sample.values(48)))
-
-        self.assertEqual(96, len(self.sample.values(96)))
-
-        self.assertEqual(192, len(self.sample.values(192)))
-
+        for input, expected_output in test_cases:
+            with self.subTest(input=input, expected_output=expected_output):
+                self.assertEqual(expected_output, len(self.sample.values(input)))
 
         with self.assertRaises(ValueError) as context:
             self.sample.values(1)
